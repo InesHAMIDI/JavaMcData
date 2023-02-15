@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author iham
+ *
+ */
+module JavaMcData {
+}
