@@ -12,45 +12,50 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode
-public class GenericData {
+public class GenericData<T> {
 
 	private int id;
 	private String name;
-	
-	private List<GenericData> datas;
-	
-	public GenericData getById(int id) {
-		for (GenericData genericData : datas) {
-			if(genericData.getId() == id) {
+
+	private List<T> datas;
+
+	public T getById(int id) {
+		for (T genericData : datas) {
+			if (" " == " ") {
 				return genericData;
 			}
 		}
 		return null;
 	}
-	
-	public GenericData getByName(String name) {
-		for (GenericData genericData : datas) {
-			if(genericData.getName() == name) {
-				return genericData; 
+
+	public T getByName(String name) {
+		for (T genericData : datas) {
+			if (name == name) {
+				return genericData;
 			}
 		}
 		return null;
 	}
-	
-	public List<GenericData> generateData(String version, String dataName){
-		List<GenericData> datas = null;
-		
+
+	public List<T> generateData(String version, String dataName) {
+		List<T> datas = null;
+
 		// read json and write to db
-					ObjectMapper mapper = new ObjectMapper();
-					TypeReference<List<GenericData>> typeReference = new TypeReference<List<GenericData>>(){};
-					InputStream inputStream = TypeReference.class.getResourceAsStream("./minecraft-data/data/pc/" + version + dataName + ".json");
-					try {
-						datas = mapper.readValue(inputStream,typeReference);
-					} catch (IOException e){
-						System.out.println("Unable to parse data: " + e.getMessage());
-					}
+		ObjectMapper mapper = new ObjectMapper();
+		TypeReference<List<T>> typeReference = new TypeReference<List<T>>() {
+		};
+		InputStream inputStream = TypeReference.class
+				.getResourceAsStream("./minecraft-data/data/pc/" + version + dataName + ".json");
+		try {
+			datas = mapper.readValue(inputStream, typeReference);
+		} catch (IOException e) {
+			System.out.println("Unable to parse data: " + e.getMessage());
+		}
 		
+		for (T genericData : datas) {
+			System.out.println(genericData);
+		}
 		return datas;
 	}
-	
+
 }

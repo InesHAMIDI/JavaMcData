@@ -1,12 +1,16 @@
 package main.java;
 
+import java.util.List;
 
+import main.java.models.Biome;
 
 public class Main {
 
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+		Biome biome = new Biome();
+		List<Biome> biomes = biome.generateData("1.19", "biomes");
 	}
 	
 
