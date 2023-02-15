@@ -6,4 +6,5 @@
  *
  */
 module JavaMcData {
+	requires lombok;
 }
