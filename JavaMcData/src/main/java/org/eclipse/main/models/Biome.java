@@ -1,68 +1,85 @@
 package org.eclipse.main.models;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Collection;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+//"./minecraft-data/data/pc/" + version + "/biomes.json"
 @Data
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-public class Biome{
-	
-	private int id;
-    private String name;
-    private String category;
-    private float temperature;
-    private String precipitation;
-    private String dimension;
-    private String displayName;
-    private String color;
-    private float rainfall;
+public class Biome {
 
-    List<Biome> biomes;
-    
-    public Biome getById(int id) {
-    	for (Biome biome : biomes) {
-			if(biome.getId() == id) {
+	private int id;
+	private String name;
+	private String category;
+	private float temperature;
+	private String precipitation;
+	private String dimension;
+	private String displayName;
+	private String color;
+	private float rainfall;
+
+	Collection<Biome> biomes;
+
+	public Biome getById(int id, Collection<Biome> biomes) {
+		for (Biome biome : biomes) {
+			if (biome.getId() == id) {
 				return biome;
 			}
 		}
-    	return null;
-    }
-    
-    public Biome getByName(String name) {
-    	for (Biome biome : biomes) {
-			if(biome.getName().equals(name)) {
+		return null;
+	}
+
+	public Biome getByName(String name, Collection<Biome> biomes) {
+		for (Biome biome : this.biomes) {
+			if (biome.getName().equals(name)) {
 				return biome;
 			}
 		}
-    	return null;
-    }
-    
-    public List<Biome> generateBiomes(String version) {
-        
-		List<Biome> biomes = null;
+		return null;
+	}
+
+	public Collection<Biome> generateBiomes(String version) {
+		//JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
+         
+        try (FileReader reader = new FileReader("employees.json"))
+        {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+            JSONArray biomeArray = (JSONArray) obj;             
+
+            biomeArray.forEach( b -> parseObject( (JSONObject) emp ) );
+ 
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 		
-		ObjectMapper mapper = new ObjectMapper();
-		InputStream is = Biome.class.getResourceAsStream("./minecraft-data/data/pc/" + version + "biomes.json");
-		try {
-			Biome biome = mapper.readValue(is, Biome.class);
-			biomes.add(biome);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
-		for (Biome b : biomes) {
-			System.out.println(b.toString());
-		}
-		return biomes;
+		return this.biomes;
+
+	}
+
+	private Biome parseObject(JSONObject emp) {
+		Biome biome = null;
+		
+		return biome;
 	}
 }
