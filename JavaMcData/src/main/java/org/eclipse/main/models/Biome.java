@@ -62,7 +62,9 @@ public class Biome {
             Object obj = jsonParser.parse(reader);
             JSONArray biomeArray = (JSONArray) obj;             
 
-            biomeArray.forEach( b -> parseObject( (JSONObject) emp ) );
+            for (Object b : biomeArray) {
+				b = parseObject((JSONObject)b);
+			};
  
         } catch (FileNotFoundException e) {
             e.printStackTrace();
